@@ -5,21 +5,20 @@
  <INCLUDE_PATH>
   <DIR>C:\Archivos de programa\Atmel\AVR Tools\AvrAssembler2\Appnotes</DIR>
  </INCLUDE_PATH>
- <SOURCE_FILE>C:\Documents and Settings\Laboratorio\Mis documentos\Micros\practica1\prac1.asm</SOURCE_FILE>
+ <SOURCE_FILE>C:\Documents and Settings\Laboratorio\Mis documentos\Micros\practica1\prac2.asm</SOURCE_FILE>
  <INCLUDED_FILES>
   <FILE>C:\Archivos de programa\Atmel\AVR Tools\AvrAssembler2\Appnotes\M8535DEF.INC</FILE>
  </INCLUDED_FILES>
  <OBJECT_FILES>
-  <FILE>C:\Documents and Settings\Laboratorio\Mis documentos\Micros\practica1\prac1.obj</FILE>
+  <FILE>C:\Documents and Settings\Laboratorio\Mis documentos\Micros\practica1\prac2.obj</FILE>
  </OBJECT_FILES>
  <HEX_FILES>
-  <FILE>C:\Documents and Settings\Laboratorio\Mis documentos\Micros\practica1\prac1.hex</FILE>
+  <FILE>C:\Documents and Settings\Laboratorio\Mis documentos\Micros\practica1\prac2.hex</FILE>
  </HEX_FILES>
  <OUTPUT_FILES>
-  <FILE>C:\Documents and Settings\Laboratorio\Mis documentos\Micros\practica1\prac1.map</FILE>
+  <FILE>C:\Documents and Settings\Laboratorio\Mis documentos\Micros\practica1\prac2.map</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <LOOP><FILE>C:\Documents and Settings\Laboratorio\Mis documentos\Micros\practica1\prac1.asm</FILE><LINE>7</LINE></LOOP>
-  <DELAY><FILE>C:\Documents and Settings\Laboratorio\Mis documentos\Micros\practica1\prac1.asm</FILE><LINE>9</LINE></DELAY>
+  <LOOP><FILE>C:\Documents and Settings\Laboratorio\Mis documentos\Micros\practica1\prac2.asm</FILE><LINE>8</LINE></LOOP>
  </LABELS>
 </ASSEMBLER_INFO>
