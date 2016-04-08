@@ -1,0 +1,148 @@
+
+prac01.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000080  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  000000d4  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000000d4  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000104  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000040  00000000  00000000  00000144  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000001bd  00000000  00000000  00000184  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 0000013b  00000000  00000000  00000341  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000007dd  00000000  00000000  0000047c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000048  00000000  00000000  00000c5c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    0000ebf8  00000000  00000000  00000ca4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000000ac  00000000  00000000  0000f89c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000020  00000000  00000000  0000f948  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_macro  00003047  00000000  00000000  0000f968  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	14 c0       	rjmp	.+40     	; 0x2a <__ctors_end>
+   2:	1b c0       	rjmp	.+54     	; 0x3a <__bad_interrupt>
+   4:	1a c0       	rjmp	.+52     	; 0x3a <__bad_interrupt>
+   6:	19 c0       	rjmp	.+50     	; 0x3a <__bad_interrupt>
+   8:	18 c0       	rjmp	.+48     	; 0x3a <__bad_interrupt>
+   a:	17 c0       	rjmp	.+46     	; 0x3a <__bad_interrupt>
+   c:	16 c0       	rjmp	.+44     	; 0x3a <__bad_interrupt>
+   e:	15 c0       	rjmp	.+42     	; 0x3a <__bad_interrupt>
+  10:	14 c0       	rjmp	.+40     	; 0x3a <__bad_interrupt>
+  12:	13 c0       	rjmp	.+38     	; 0x3a <__bad_interrupt>
+  14:	12 c0       	rjmp	.+36     	; 0x3a <__bad_interrupt>
+  16:	11 c0       	rjmp	.+34     	; 0x3a <__bad_interrupt>
+  18:	10 c0       	rjmp	.+32     	; 0x3a <__bad_interrupt>
+  1a:	0f c0       	rjmp	.+30     	; 0x3a <__bad_interrupt>
+  1c:	0e c0       	rjmp	.+28     	; 0x3a <__bad_interrupt>
+  1e:	0d c0       	rjmp	.+26     	; 0x3a <__bad_interrupt>
+  20:	0c c0       	rjmp	.+24     	; 0x3a <__bad_interrupt>
+  22:	0b c0       	rjmp	.+22     	; 0x3a <__bad_interrupt>
+  24:	0a c0       	rjmp	.+20     	; 0x3a <__bad_interrupt>
+  26:	09 c0       	rjmp	.+18     	; 0x3a <__bad_interrupt>
+  28:	08 c0       	rjmp	.+16     	; 0x3a <__bad_interrupt>
+
+0000002a <__ctors_end>:
+  2a:	11 24       	eor	r1, r1
+  2c:	1f be       	out	0x3f, r1	; 63
+  2e:	cf e5       	ldi	r28, 0x5F	; 95
+  30:	d2 e0       	ldi	r29, 0x02	; 2
+  32:	de bf       	out	0x3e, r29	; 62
+  34:	cd bf       	out	0x3d, r28	; 61
+  36:	03 d0       	rcall	.+6      	; 0x3e <main>
+  38:	21 c0       	rjmp	.+66     	; 0x7c <_exit>
+
+0000003a <__bad_interrupt>:
+  3a:	e2 cf       	rjmp	.-60     	; 0x0 <__vectors>
+
+0000003c <board_init>:
+#include <asf.h>
+#include <board.h>
+#include <conf_board.h>
+
+void board_init(void)
+{
+  3c:	08 95       	ret
+
+0000003e <main>:
+
+int main (void)
+{
+	/* Insert system clock initialization code here (sysclk_init()). */
+
+	board_init();
+  3e:	fe df       	rcall	.-4      	; 0x3c <board_init>
+
+	/* Insert application code here, after the board has been initialized. */
+	
+	DDRB = 0xFF;
+  40:	8f ef       	ldi	r24, 0xFF	; 255
+  42:	87 bb       	out	0x17, r24	; 23
+	for(int counter = 0x00; counter <= 0xFF ; counter++){
+  44:	80 e0       	ldi	r24, 0x00	; 0
+  46:	90 e0       	ldi	r25, 0x00	; 0
+  48:	31 e0       	ldi	r19, 0x01	; 1
+  4a:	20 e0       	ldi	r18, 0x00	; 0
+  4c:	02 c0       	rjmp	.+4      	; 0x52 <__SREG__+0x13>
+  4e:	83 2f       	mov	r24, r19
+  50:	92 2f       	mov	r25, r18
+		PORTB = counter;
+  52:	88 bb       	out	0x18, r24	; 24
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  54:	4f e9       	ldi	r20, 0x9F	; 159
+  56:	56 e8       	ldi	r21, 0x86	; 134
+  58:	61 e0       	ldi	r22, 0x01	; 1
+  5a:	41 50       	subi	r20, 0x01	; 1
+  5c:	50 40       	sbci	r21, 0x00	; 0
+  5e:	60 40       	sbci	r22, 0x00	; 0
+  60:	e1 f7       	brne	.-8      	; 0x5a <__SREG__+0x1b>
+  62:	00 c0       	rjmp	.+0      	; 0x64 <__SREG__+0x25>
+  64:	00 00       	nop
+		_delay_ms(500);
+		if (counter == 0xFF)
+  66:	8f 3f       	cpi	r24, 0xFF	; 255
+  68:	91 05       	cpc	r25, r1
+  6a:	89 f3       	breq	.-30     	; 0x4e <__SREG__+0xf>
+	board_init();
+
+	/* Insert application code here, after the board has been initialized. */
+	
+	DDRB = 0xFF;
+	for(int counter = 0x00; counter <= 0xFF ; counter++){
+  6c:	01 96       	adiw	r24, 0x01	; 1
+  6e:	8f 3f       	cpi	r24, 0xFF	; 255
+  70:	91 05       	cpc	r25, r1
+  72:	79 f3       	breq	.-34     	; 0x52 <__SREG__+0x13>
+  74:	74 f3       	brlt	.-36     	; 0x52 <__SREG__+0x13>
+		if (counter == 0xFF)
+		{
+			counter = 0x00;
+		}
+	}
+  76:	80 e0       	ldi	r24, 0x00	; 0
+  78:	90 e0       	ldi	r25, 0x00	; 0
+  7a:	08 95       	ret
+
+0000007c <_exit>:
+  7c:	f8 94       	cli
+
+0000007e <__stop_program>:
+  7e:	ff cf       	rjmp	.-2      	; 0x7e <__stop_program>
