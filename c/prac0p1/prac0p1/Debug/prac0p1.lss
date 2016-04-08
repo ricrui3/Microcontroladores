@@ -1,33 +1,31 @@
 
-prac0.elf:     file format elf32-avr
+prac0p1.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000005a  00000000  00000000  00000054  2**1
+  0 .text         00000054  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  000000ae  2**0
+  1 .data         00000000  00800060  00800060  000000a8  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  000000ae  2**0
+  2 .comment      00000030  00000000  00000000  000000a8  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000000e0  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000000d8  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000020  00000000  00000000  00000120  2**0
+  4 .debug_aranges 00000020  00000000  00000000  00000118  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000000a5  00000000  00000000  00000140  2**0
+  5 .debug_info   0000008b  00000000  00000000  00000138  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000006e  00000000  00000000  000001e5  2**0
+  6 .debug_abbrev 00000056  00000000  00000000  000001c3  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000003b5  00000000  00000000  00000253  2**0
+  7 .debug_line   000003bb  00000000  00000000  00000219  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000024  00000000  00000000  00000608  2**2
+  8 .debug_frame  00000024  00000000  00000000  000005d4  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000e7b6  00000000  00000000  0000062c  2**0
+  9 .debug_str    0000e7b2  00000000  00000000  000005f8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000024  00000000  00000000  0000ede2  2**0
+ 10 .debug_ranges 00000010  00000000  00000000  0000edaa  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000010  00000000  00000000  0000ee06  2**0
-                  CONTENTS, READONLY, DEBUGGING
- 12 .debug_macro  00000152  00000000  00000000  0000ee16  2**0
+ 11 .debug_macro  00000158  00000000  00000000  0000edba  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -63,43 +61,36 @@ Disassembly of section .text:
   32:	de bf       	out	0x3e, r29	; 62
   34:	cd bf       	out	0x3d, r28	; 61
   36:	02 d0       	rcall	.+4      	; 0x3c <main>
-  38:	0e c0       	rjmp	.+28     	; 0x56 <_exit>
+  38:	0b c0       	rjmp	.+22     	; 0x50 <_exit>
 
 0000003a <__bad_interrupt>:
   3a:	e2 cf       	rjmp	.-60     	; 0x0 <__vectors>
 
 0000003c <main>:
-#include <avr/io.h>
-#include <asf.h>
+#define _BV(bit) \
+(1 << (bit))
 
 int main (void)
 {
 	DDRB = 0xFF;
   3c:	8f ef       	ldi	r24, 0xFF	; 255
   3e:	87 bb       	out	0x17, r24	; 23
-	for(int counter = 0x00; counter <= 0xFF ; counter++)
-  40:	80 e0       	ldi	r24, 0x00	; 0
-  42:	90 e0       	ldi	r25, 0x00	; 0
-		PORTB = counter;
-  44:	88 bb       	out	0x18, r24	; 24
-#include <asf.h>
+	PORTB = 0x00;
+  40:	18 ba       	out	0x18, r1	; 24
+	PORTB |= _BV(PB1);
+  42:	c1 9a       	sbi	0x18, 1	; 24
+	PORTB |= _BV(PB3);
+  44:	c3 9a       	sbi	0x18, 3	; 24
+	PORTB |= _BV(PB5);
+  46:	c5 9a       	sbi	0x18, 5	; 24
+	PORTB |= _BV(PB7);
+  48:	c7 9a       	sbi	0x18, 7	; 24
+  4a:	80 e0       	ldi	r24, 0x00	; 0
+  4c:	90 e0       	ldi	r25, 0x00	; 0
+  4e:	08 95       	ret
 
-int main (void)
-{
-	DDRB = 0xFF;
-	for(int counter = 0x00; counter <= 0xFF ; counter++)
-  46:	01 96       	adiw	r24, 0x01	; 1
-  48:	81 15       	cp	r24, r1
-  4a:	21 e0       	ldi	r18, 0x01	; 1
-  4c:	92 07       	cpc	r25, r18
-  4e:	d1 f7       	brne	.-12     	; 0x44 <__SREG__+0x5>
-		PORTB = counter;
-  50:	80 e0       	ldi	r24, 0x00	; 0
-  52:	90 e0       	ldi	r25, 0x00	; 0
-  54:	08 95       	ret
+00000050 <_exit>:
+  50:	f8 94       	cli
 
-00000056 <_exit>:
-  56:	f8 94       	cli
-
-00000058 <__stop_program>:
-  58:	ff cf       	rjmp	.-2      	; 0x58 <__stop_program>
+00000052 <__stop_program>:
+  52:	ff cf       	rjmp	.-2      	; 0x52 <__stop_program>

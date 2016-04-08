@@ -3,31 +3,31 @@ prac01.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000080  00000000  00000000  00000054  2**1
+  0 .text         0000008a  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  000000d4  2**0
+  1 .data         00000000  00800060  00800060  000000de  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  000000d4  2**0
+  2 .comment      00000030  00000000  00000000  000000de  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000104  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000110  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000040  00000000  00000000  00000144  2**0
+  4 .debug_aranges 00000020  00000000  00000000  00000150  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000001bd  00000000  00000000  00000184  2**0
+  5 .debug_info   000000d7  00000000  00000000  00000170  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000013b  00000000  00000000  00000341  2**0
+  6 .debug_abbrev 0000006e  00000000  00000000  00000247  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000007dd  00000000  00000000  0000047c  2**0
+  7 .debug_line   000003e1  00000000  00000000  000002b5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000048  00000000  00000000  00000c5c  2**2
+  8 .debug_frame  00000024  00000000  00000000  00000698  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000ebf8  00000000  00000000  00000ca4  2**0
+  9 .debug_str    0000e7ca  00000000  00000000  000006bc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000000ac  00000000  00000000  0000f89c  2**0
+ 10 .debug_loc    000000e4  00000000  00000000  0000ee86  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000020  00000000  00000000  0000f948  2**0
+ 11 .debug_ranges 00000010  00000000  00000000  0000ef6a  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_macro  00003047  00000000  00000000  0000f968  2**0
+ 12 .debug_macro  00000152  00000000  00000000  0000ef7a  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -62,87 +62,100 @@ Disassembly of section .text:
   30:	d2 e0       	ldi	r29, 0x02	; 2
   32:	de bf       	out	0x3e, r29	; 62
   34:	cd bf       	out	0x3d, r28	; 61
-  36:	03 d0       	rcall	.+6      	; 0x3e <main>
-  38:	21 c0       	rjmp	.+66     	; 0x7c <_exit>
+  36:	02 d0       	rcall	.+4      	; 0x3c <main>
+  38:	26 c0       	rjmp	.+76     	; 0x86 <_exit>
 
 0000003a <__bad_interrupt>:
   3a:	e2 cf       	rjmp	.-60     	; 0x0 <__vectors>
 
-0000003c <board_init>:
+0000003c <main>:
+#include <avr/io.h>
 #include <asf.h>
-#include <board.h>
-#include <conf_board.h>
-
-void board_init(void)
-{
-  3c:	08 95       	ret
-
-0000003e <main>:
 
 int main (void)
-{
-	/* Insert system clock initialization code here (sysclk_init()). */
-
-	board_init();
-  3e:	fe df       	rcall	.-4      	; 0x3c <board_init>
-
-	/* Insert application code here, after the board has been initialized. */
-	
+{	
 	DDRB = 0xFF;
-  40:	8f ef       	ldi	r24, 0xFF	; 255
-  42:	87 bb       	out	0x17, r24	; 23
+  3c:	8f ef       	ldi	r24, 0xFF	; 255
+  3e:	87 bb       	out	0x17, r24	; 23
 	for(int counter = 0x00; counter <= 0xFF ; counter++){
-  44:	80 e0       	ldi	r24, 0x00	; 0
-  46:	90 e0       	ldi	r25, 0x00	; 0
-  48:	31 e0       	ldi	r19, 0x01	; 1
-  4a:	20 e0       	ldi	r18, 0x00	; 0
-  4c:	02 c0       	rjmp	.+4      	; 0x52 <__SREG__+0x13>
-  4e:	83 2f       	mov	r24, r19
-  50:	92 2f       	mov	r25, r18
+  40:	60 e0       	ldi	r22, 0x00	; 0
+  42:	70 e0       	ldi	r23, 0x00	; 0
 		PORTB = counter;
-  52:	88 bb       	out	0x18, r24	; 24
-	#else
-		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-	#endif
+  44:	f0 e0       	ldi	r31, 0x00	; 0
+  46:	e1 e0       	ldi	r30, 0x01	; 1
+#include <asf.h>
 
-	__builtin_avr_delay_cycles(__ticks_dc);
-  54:	4f e9       	ldi	r20, 0x9F	; 159
-  56:	56 e8       	ldi	r21, 0x86	; 134
-  58:	61 e0       	ldi	r22, 0x01	; 1
-  5a:	41 50       	subi	r20, 0x01	; 1
-  5c:	50 40       	sbci	r21, 0x00	; 0
-  5e:	60 40       	sbci	r22, 0x00	; 0
-  60:	e1 f7       	brne	.-8      	; 0x5a <__SREG__+0x1b>
-  62:	00 c0       	rjmp	.+0      	; 0x64 <__SREG__+0x25>
-  64:	00 00       	nop
-		_delay_ms(500);
-		if (counter == 0xFF)
-  66:	8f 3f       	cpi	r24, 0xFF	; 255
-  68:	91 05       	cpc	r25, r1
-  6a:	89 f3       	breq	.-30     	; 0x4e <__SREG__+0xf>
-	board_init();
-
-	/* Insert application code here, after the board has been initialized. */
-	
+int main (void)
+{	
 	DDRB = 0xFF;
 	for(int counter = 0x00; counter <= 0xFF ; counter++){
-  6c:	01 96       	adiw	r24, 0x01	; 1
-  6e:	8f 3f       	cpi	r24, 0xFF	; 255
-  70:	91 05       	cpc	r25, r1
+  48:	5f 2f       	mov	r21, r31
+  4a:	4e 2f       	mov	r20, r30
+  4c:	b1 e0       	ldi	r27, 0x01	; 1
+  4e:	a0 e0       	ldi	r26, 0x00	; 0
+  50:	02 c0       	rjmp	.+4      	; 0x56 <__SREG__+0x17>
+  52:	6b 2f       	mov	r22, r27
+  54:	7a 2f       	mov	r23, r26
+		PORTB = counter;
+  56:	68 bb       	out	0x18, r22	; 24
+  58:	2f 2f       	mov	r18, r31
+  5a:	3e 2f       	mov	r19, r30
+  5c:	05 c0       	rjmp	.+10     	; 0x68 <__SREG__+0x29>
+  5e:	01 97       	sbiw	r24, 0x01	; 1
+		for (int counter2 = 0x00; counter2 <= 0xFF; counter2++)
+		{
+			for (int counter3 = 0x00; counter3 <=0xFF; counter3++)
+  60:	f1 f7       	brne	.-4      	; 0x5e <__SREG__+0x1f>
+  62:	21 50       	subi	r18, 0x01	; 1
+  64:	31 09       	sbc	r19, r1
+int main (void)
+{	
+	DDRB = 0xFF;
+	for(int counter = 0x00; counter <= 0xFF ; counter++){
+		PORTB = counter;
+		for (int counter2 = 0x00; counter2 <= 0xFF; counter2++)
+  66:	19 f0       	breq	.+6      	; 0x6e <__SREG__+0x2f>
+#include <asf.h>
+
+int main (void)
+{	
+	DDRB = 0xFF;
+	for(int counter = 0x00; counter <= 0xFF ; counter++){
+  68:	85 2f       	mov	r24, r21
+  6a:	94 2f       	mov	r25, r20
+  6c:	f8 cf       	rjmp	.-16     	; 0x5e <__SREG__+0x1f>
+				{
+					//Do nothing
+				}*/
+			}
+		}
+		if (counter == 0xFF)
+  6e:	6f 3f       	cpi	r22, 0xFF	; 255
+  70:	71 05       	cpc	r23, r1
   72:	79 f3       	breq	.-34     	; 0x52 <__SREG__+0x13>
-  74:	74 f3       	brlt	.-36     	; 0x52 <__SREG__+0x13>
+#include <asf.h>
+
+int main (void)
+{	
+	DDRB = 0xFF;
+	for(int counter = 0x00; counter <= 0xFF ; counter++){
+  74:	6f 5f       	subi	r22, 0xFF	; 255
+  76:	7f 4f       	sbci	r23, 0xFF	; 255
+  78:	6f 3f       	cpi	r22, 0xFF	; 255
+  7a:	71 05       	cpc	r23, r1
+  7c:	61 f3       	breq	.-40     	; 0x56 <__SREG__+0x17>
+  7e:	5c f3       	brlt	.-42     	; 0x56 <__SREG__+0x17>
 		if (counter == 0xFF)
 		{
 			counter = 0x00;
 		}
 	}
-  76:	80 e0       	ldi	r24, 0x00	; 0
-  78:	90 e0       	ldi	r25, 0x00	; 0
-  7a:	08 95       	ret
+  80:	80 e0       	ldi	r24, 0x00	; 0
+  82:	90 e0       	ldi	r25, 0x00	; 0
+  84:	08 95       	ret
 
-0000007c <_exit>:
-  7c:	f8 94       	cli
+00000086 <_exit>:
+  86:	f8 94       	cli
 
-0000007e <__stop_program>:
-  7e:	ff cf       	rjmp	.-2      	; 0x7e <__stop_program>
+00000088 <__stop_program>:
+  88:	ff cf       	rjmp	.-2      	; 0x88 <__stop_program>
