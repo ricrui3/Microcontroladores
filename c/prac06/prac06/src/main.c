@@ -4,9 +4,9 @@
 
 #include <avr/io.h>
 #include <asf.h>
-#include <util/delay.h>
 
 int encenderNum(int num);
+int delay1(void);
 
 int main (void)
 {
@@ -18,11 +18,18 @@ int main (void)
 	
 	DDRB = 0xFF;
 	for(int counter = 0; counter <= 15 ; counter++){
-		PORTB = encenderNum(counter);
-		_delay_ms(10000);
+		for(int counter2 = 0x00; counter2 <= 0xFF ; counter2++){
+			for (int counter3 = 0x00; counter3 <= 0xFF; counter3++)
+			{
+				for (int counter4 = 0x00; counter4 <=0x09; counter4++)
+				{
+					PORTB = encenderNum(counter);
+				}
+			}
+		}
 		if (counter == 15)
 		{
-			counter = 0;
+			counter = -1;
 		}
 	}
 }

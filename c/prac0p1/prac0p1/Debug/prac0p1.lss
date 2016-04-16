@@ -21,11 +21,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   8 .debug_frame  00000024  00000000  00000000  000005d4  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000e7b2  00000000  00000000  000005f8  2**0
+  9 .debug_str    0000e84a  00000000  00000000  000005f8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_ranges 00000010  00000000  00000000  0000edaa  2**0
+ 10 .debug_ranges 00000010  00000000  00000000  0000ee42  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_macro  00000158  00000000  00000000  0000edba  2**0
+ 11 .debug_macro  00000182  00000000  00000000  0000ee52  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -67,8 +67,8 @@ Disassembly of section .text:
   3a:	e2 cf       	rjmp	.-60     	; 0x0 <__vectors>
 
 0000003c <main>:
-#define _BV(bit) \
-(1 << (bit))
+(1 << 7)
+
 
 int main (void)
 {
@@ -77,14 +77,14 @@ int main (void)
   3e:	87 bb       	out	0x17, r24	; 23
 	PORTB = 0x00;
   40:	18 ba       	out	0x18, r1	; 24
-	PORTB |= _BV(PB1);
-  42:	c1 9a       	sbi	0x18, 1	; 24
-	PORTB |= _BV(PB3);
+	PORTB |= _ROJO1();
+  42:	c0 9a       	sbi	0x18, 0	; 24
+	PORTB |= _VUELTA1();
   44:	c3 9a       	sbi	0x18, 3	; 24
-	PORTB |= _BV(PB5);
+	PORTB |= _AMBAR2();
   46:	c5 9a       	sbi	0x18, 5	; 24
-	PORTB |= _BV(PB7);
-  48:	c7 9a       	sbi	0x18, 7	; 24
+	PORTB |= _ROJO2();
+  48:	c4 9a       	sbi	0x18, 4	; 24
   4a:	80 e0       	ldi	r24, 0x00	; 0
   4c:	90 e0       	ldi	r25, 0x00	; 0
   4e:	08 95       	ret

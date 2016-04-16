@@ -1,9 +1,9 @@
 RELACION DE PRACTICAS
 
-0 	- Contador binario sin retardo
+0 	- Contador binario sin retardo ------------------- X
 0.1 - Semaforo
-1	- Contador binario con retardo
-2	- Lectura/Escritura de puertos  (A -> B)
+1	- Contador binario con retardo ------------------- X
+2	- Lectura/Escritura de puertos  (A -> B) --------- X
 3	- Contador binario con retardos (C/Timer1)
 4	- PWM C/Timer2 (Minidip)
 5	- PWM C/Timer2 (Conteo UP/DOWN)

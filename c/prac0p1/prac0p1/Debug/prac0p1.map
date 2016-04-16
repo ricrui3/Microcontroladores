@@ -477,10 +477,10 @@ END GROUP
  *(.debug_frame)
  .debug_frame   0x00000000       0x24 src/main.o
 
-.debug_str      0x00000000     0xe7b2
+.debug_str      0x00000000     0xe84a
  *(.debug_str)
- .debug_str     0x00000000     0xe7b2 src/main.o
-                               0xe95a (size before relaxing)
+ .debug_str     0x00000000     0xe84a src/main.o
+                               0xe9f2 (size before relaxing)
 
 .debug_loc
  *(.debug_loc)
@@ -507,8 +507,8 @@ END GROUP
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x10 src/main.o
 
-.debug_macro    0x00000000      0x158
+.debug_macro    0x00000000      0x182
  *(.debug_macro)
- .debug_macro   0x00000000      0x158 src/main.o
+ .debug_macro   0x00000000      0x182 src/main.o
 OUTPUT(prac0p1.elf elf32-avr)
 LOAD linker stubs

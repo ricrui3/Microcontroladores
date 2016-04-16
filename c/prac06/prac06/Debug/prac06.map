@@ -60,8 +60,6 @@ Discarded input sections
  .group         0x00000000        0x8 src/main.o
  .group         0x00000000        0x8 src/main.o
  .group         0x00000000        0x8 src/main.o
- .group         0x00000000        0x8 src/main.o
- .group         0x00000000        0x8 src/main.o
  .text          0x00000000        0x0 src/main.o
  .data          0x00000000        0x0 src/main.o
  .bss           0x00000000        0x0 src/main.o
@@ -224,7 +222,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x126
+.text           0x00000000      0x162
  *(.vectors)
  .vectors       0x00000000       0x2a C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.98/gcc/dev/atmega8535/avr4/crtatmega8535.o
                 0x00000000                __vector_default
@@ -308,13 +306,13 @@ END GROUP
  .text.encenderNum
                 0x0000005e       0x74 src/main.o
                 0x0000005e                encenderNum
- .text.main     0x000000d2       0x50 src/main.o
+ .text.main     0x000000d2       0x8c src/main.o
                 0x000000d2                main
-                0x00000122                . = ALIGN (0x2)
+                0x0000015e                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000122        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr4\libgcc.a(_exit.o)
-                0x00000122                _exit
-                0x00000122                exit
+ .fini9         0x0000015e        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr4\libgcc.a(_exit.o)
+                0x0000015e                _exit
+                0x0000015e                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -333,11 +331,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000122        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr4\libgcc.a(_exit.o)
+ .fini0         0x0000015e        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr4\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000126                _etext = .
+                0x00000162                _etext = .
 
-.data           0x00800060        0x0 load address 0x00000126
+.data           0x00800060        0x0 load address 0x00000162
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -354,8 +352,8 @@ END GROUP
  *(.bss*)
  *(COMMON)
                 0x00800060                PROVIDE (__bss_end, .)
-                0x00000126                __data_load_start = LOADADDR (.data)
-                0x00000126                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000162                __data_load_start = LOADADDR (.data)
+                0x00000162                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800060        0x0
                 0x00800060                PROVIDE (__noinit_start, .)
@@ -437,36 +435,36 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x204
+.debug_info     0x00000000      0x1bb
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000       0x7c src/ASF/common/boards/user_board/init.o
- .debug_info    0x0000007c      0x188 src/main.o
+ .debug_info    0x0000007c      0x13f src/main.o
 
-.debug_abbrev   0x00000000      0x17f
+.debug_abbrev   0x00000000      0x11c
  *(.debug_abbrev)
  .debug_abbrev  0x00000000       0x47 src/ASF/common/boards/user_board/init.o
- .debug_abbrev  0x00000047      0x138 src/main.o
+ .debug_abbrev  0x00000047       0xd5 src/main.o
 
-.debug_line     0x00000000      0x860
+.debug_line     0x00000000      0x82d
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x391 src/ASF/common/boards/user_board/init.o
- .debug_line    0x00000391      0x4cf src/main.o
+ .debug_line    0x00000391      0x49c src/main.o
 
-.debug_frame    0x00000000       0x6c
+.debug_frame    0x00000000       0x8c
  *(.debug_frame)
  .debug_frame   0x00000000       0x24 src/ASF/common/boards/user_board/init.o
- .debug_frame   0x00000024       0x48 src/main.o
+ .debug_frame   0x00000024       0x68 src/main.o
 
-.debug_str      0x00000000     0xec04
+.debug_str      0x00000000     0xe815
  *(.debug_str)
- .debug_str     0x00000000     0xe7c9 src/ASF/common/boards/user_board/init.o
-                               0xe971 (size before relaxing)
- .debug_str     0x0000e7c9      0x43b src/main.o
-                               0xed81 (size before relaxing)
+ .debug_str     0x00000000     0xe7cb src/ASF/common/boards/user_board/init.o
+                               0xe973 (size before relaxing)
+ .debug_str     0x0000e7cb       0x4a src/main.o
+                               0xe992 (size before relaxing)
 
-.debug_loc      0x00000000      0x2fb
+.debug_loc      0x00000000      0x400
  *(.debug_loc)
- .debug_loc     0x00000000      0x2fb src/main.o
+ .debug_loc     0x00000000      0x400 src/main.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -486,12 +484,12 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0x28
+.debug_ranges   0x00000000       0xb8
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x10 src/ASF/common/boards/user_board/init.o
- .debug_ranges  0x00000010       0x18 src/main.o
+ .debug_ranges  0x00000010       0xa8 src/main.o
 
-.debug_macro    0x00000000     0x3047
+.debug_macro    0x00000000     0x2eb5
  *(.debug_macro)
  .debug_macro   0x00000000      0x152 src/ASF/common/boards/user_board/init.o
  .debug_macro   0x00000152      0xa42 src/ASF/common/boards/user_board/init.o
@@ -519,8 +517,6 @@ END GROUP
  .debug_macro   0x0000297f       0x40 src/ASF/common/boards/user_board/init.o
  .debug_macro   0x000029bf      0x100 src/ASF/common/boards/user_board/init.o
  .debug_macro   0x00002abf      0x2a4 src/ASF/common/boards/user_board/init.o
- .debug_macro   0x00002d63      0x174 src/main.o
- .debug_macro   0x00002ed7       0x10 src/main.o
- .debug_macro   0x00002ee7      0x160 src/main.o
+ .debug_macro   0x00002d63      0x152 src/main.o
 OUTPUT(prac06.elf elf32-avr)
 LOAD linker stubs
