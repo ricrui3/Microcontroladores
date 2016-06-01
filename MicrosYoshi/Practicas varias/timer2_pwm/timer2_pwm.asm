@@ -1,0 +1,28 @@
+
+				.INCLUDE	"M8535DEF.INC"
+                 
+                .CSEG		
+                .ORG	$0					
+      	RJMP	INICIO		;SALTA VECTORES DE INTERRUPCIÓN			
+                .ORG	$015				
+INICIO:
+      	LDI		R16,	LOW(RAMEND)		;INICIALIZA EL APUNTADOR DE PILA
+     	OUT		SPL,	R16			
+     	LDI		R16,	HIGH(RAMEND)
+      	OUT		SPH,	R16
+		SER		R16		 			
+      	OUT		PORTA,	R16		;ACTIVA PULL-UP EN PUERTO A
+		OUT		DDRB,	R16		;CONFIGURA PUERTO B Y D COMO SALIDA
+		OUT		DDRD,	R16		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		LDI		R16,	$62		;SE HABILITA MODO PWM EN TIMER2
+		OUT		TCCR2,	R16		;;;;;;;;;;;;;;;;
+			
+      		
+LOOP:	IN		R16,	PINA	;;SE LEE DATO DEL MINIDIP DEL PUERTO A
+		OUT		PORTB,	R16		;;SE ESCRIBE DATO EN LOS LEDS
+		OUT		OCR2,	R16		;;ESCRIBO FACTOR DE MODULACIÓN PARA PWM
+								;;OCR2 COMPARADOR	
+
+
+		RJMP	LOOP
+		

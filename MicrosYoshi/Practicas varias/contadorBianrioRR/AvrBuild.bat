@@ -1,0 +1,2 @@
+@ECHO OFF
+"C:\Program Files\Atmel\AVR Tools\AvrAssembler2\avrasm2.exe" -S "C:\Users\RENE\Dropbox\Horny\PRACTICAS\contadorBianrioRR\labels.tmp" -fI -W+ie -C V2E -o "C:\Users\RENE\Dropbox\Horny\PRACTICAS\contadorBianrioRR\contadorBianrioRR.hex" -d "C:\Users\RENE\Dropbox\Horny\PRACTICAS\contadorBianrioRR\contadorBianrioRR.obj" -e "C:\Users\RENE\Dropbox\Horny\PRACTICAS\contadorBianrioRR\contadorBianrioRR.eep" -m "C:\Users\RENE\Dropbox\Horny\PRACTICAS\contadorBianrioRR\contadorBianrioRR.map" "C:\Users\RENE\Dropbox\Horny\PRACTICAS\contadorBianrioRR\contadorBianrioRR.asm"

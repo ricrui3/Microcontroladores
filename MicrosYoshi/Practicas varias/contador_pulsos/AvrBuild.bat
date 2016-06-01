@@ -1,0 +1,2 @@
+@ECHO OFF
+"C:\Program Files\Atmel\AVR Tools\AvrAssembler2\avrasm2.exe" -S "C:\Users\RENE\Dropbox\Horny\PRACTICAS\contador_pulsos\labels.tmp" -fI -W+ie -C V2E -o "C:\Users\RENE\Dropbox\Horny\PRACTICAS\contador_pulsos\contador_pulsos.hex" -d "C:\Users\RENE\Dropbox\Horny\PRACTICAS\contador_pulsos\contador_pulsos.obj" -e "C:\Users\RENE\Dropbox\Horny\PRACTICAS\contador_pulsos\contador_pulsos.eep" -m "C:\Users\RENE\Dropbox\Horny\PRACTICAS\contador_pulsos\contador_pulsos.map" "C:\Users\RENE\Dropbox\Horny\PRACTICAS\contador_pulsos\contador_pulsos.asm"
