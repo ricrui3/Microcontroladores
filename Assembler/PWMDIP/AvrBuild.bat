@@ -1,0 +1,2 @@
+@ECHO OFF
+"C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\avrasm2.exe" -S "C:\Users\Rubik\Documents\Micros\Assembler\PWMDIP\labels.tmp" -fI -W+ie -o "C:\Users\Rubik\Documents\Micros\Assembler\PWMDIP\PWMDIP.hex" -d "C:\Users\Rubik\Documents\Micros\Assembler\PWMDIP\PWMDIP.obj" -e "C:\Users\Rubik\Documents\Micros\Assembler\PWMDIP\PWMDIP.eep" -m "C:\Users\Rubik\Documents\Micros\Assembler\PWMDIP\PWMDIP.map" "C:\Users\Rubik\Documents\Micros\Assembler\PWMDIP\PWMDIP.asm"
