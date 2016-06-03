@@ -4,19 +4,19 @@ RELACION DE PRACTICAS
 0.1 - Semaforo --------------------------------------- X
 1	- Contador binario con retardo ------------------- X
 2	- Lectura/Escritura de puertos  (A -> B) --------- X
-3	- Contador binario con retardos (C/Timer1) ------- X -
-4	- PWM C/Timer2 (Minidip) ------------------------- X -
-5	- PWM C/Timer2 (Conteo UP/DOWN) ------------------ X -
+3	- Contador binario con retardos (C/Timer1) ------- X
+4	- PWM C/Timer2 (Minidip) ------------------------- X 
+5	- PWM C/Timer2 (Conteo UP/DOWN) ------------------ X 
 6	- Contador con display 7 segmentos (0-F)---------- X
-7	- TX Caracter 
-8	- RX Caracter
-9	- Eco Caracter
-10	- Tx Cadena
-11 	- Eco Cadena con Lectura/Escritura en RAM
+7	- TX Caracter ------------------------------------ X
+8	- RX Caracter ------------------------------------ X 
+9	- Eco Caracter ----------------------------------- X 
+10	- Tx Cadena -------------------------------------- X 
+11 	- Eco Cadena con Lectura/Escritura en RAM -------- X
 12	- Suma Binaria ----------------------------------- X
 13 	- Resta Binaria ---------------------------------- X
 14	- Multiplicacion Binaria ------------------------- X
 15  - ajuste bcd 
-16  - Conversion 1 canal Free run a LEDS 
-17  - Conversion 1 canal Free run a LEDS y por UART - 
+16  - Conversion 1 canal Free run a LEDS ------------- X
+17  - Conversion 1 canal Free run a LEDS y por UART -- X 
 18  - Conversion 3 canales Free run a LEDS y UART c/protocolo

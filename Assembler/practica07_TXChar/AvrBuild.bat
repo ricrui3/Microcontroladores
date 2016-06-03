@@ -1,0 +1,2 @@
+@ECHO OFF
+"C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\avrasm2.exe" -S "C:\Users\Rubik\Documents\git\Micros\Assembler\practica07_TXChar\labels.tmp" -fI -W+ie -o "C:\Users\Rubik\Documents\git\Micros\Assembler\practica07_TXChar\tranChar.hex" -d "C:\Users\Rubik\Documents\git\Micros\Assembler\practica07_TXChar\tranChar.obj" -e "C:\Users\Rubik\Documents\git\Micros\Assembler\practica07_TXChar\tranChar.eep" -m "C:\Users\Rubik\Documents\git\Micros\Assembler\practica07_TXChar\tranChar.map" "C:\Users\Rubik\Documents\git\Micros\Assembler\practica07_TXChar\tranChar.asm"
