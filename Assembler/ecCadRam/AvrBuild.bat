@@ -1,2 +1,0 @@
-@ECHO OFF
-"C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\avrasm2.exe" -S "C:\Users\Rubik\Documents\git\Micros\Assembler\ecCadRam\labels.tmp" -fI -W+ie -o "C:\Users\Rubik\Documents\git\Micros\Assembler\ecCadRam\ecCadRam.hex" -d "C:\Users\Rubik\Documents\git\Micros\Assembler\ecCadRam\ecCadRam.obj" -e "C:\Users\Rubik\Documents\git\Micros\Assembler\ecCadRam\ecCadRam.eep" -m "C:\Users\Rubik\Documents\git\Micros\Assembler\ecCadRam\ecCadRam.map" "C:\Users\Rubik\Documents\git\Micros\Assembler\ecCadRam\ecCadRam.asm"
