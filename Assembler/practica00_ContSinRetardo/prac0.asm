@@ -1,4 +1,6 @@
+; Author : Ricardo Ruiz Maldonado
 ;PRACTICA 0 (CONTADOR BINARIO SIN RETARDO)
+
 .INCLUDE "M8535DEF.INC"
 .CSEG
 .ORG 0

@@ -4,8 +4,10 @@
 .ORG 0
 			LDI  	R16, $FF
 			OUT 	DDRB, R16
+			
 LOOP:		OUT 	PORTB, R16
 			INC 	R16
+
 DELAY:		DEC 	R20
 			BRNE 	DELAY
 			DEC 	R21

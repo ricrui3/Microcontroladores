@@ -1,0 +1,119 @@
+
+practica4.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000006a  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .debug_aranges 00000020  00000000  00000000  000000be  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  2 .debug_pubnames 0000001b  00000000  00000000  000000de  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   00000086  00000000  00000000  000000f9  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 00000050  00000000  00000000  0000017f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   000000a7  00000000  00000000  000001cf  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000020  00000000  00000000  00000278  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    0000009b  00000000  00000000  00000298  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_ranges 00000018  00000000  00000000  00000333  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	14 c0       	rjmp	.+40     	; 0x2a <__ctors_end>
+   2:	1b c0       	rjmp	.+54     	; 0x3a <__bad_interrupt>
+   4:	1a c0       	rjmp	.+52     	; 0x3a <__bad_interrupt>
+   6:	19 c0       	rjmp	.+50     	; 0x3a <__bad_interrupt>
+   8:	18 c0       	rjmp	.+48     	; 0x3a <__bad_interrupt>
+   a:	17 c0       	rjmp	.+46     	; 0x3a <__bad_interrupt>
+   c:	16 c0       	rjmp	.+44     	; 0x3a <__bad_interrupt>
+   e:	15 c0       	rjmp	.+42     	; 0x3a <__bad_interrupt>
+  10:	14 c0       	rjmp	.+40     	; 0x3a <__bad_interrupt>
+  12:	13 c0       	rjmp	.+38     	; 0x3a <__bad_interrupt>
+  14:	12 c0       	rjmp	.+36     	; 0x3a <__bad_interrupt>
+  16:	11 c0       	rjmp	.+34     	; 0x3a <__bad_interrupt>
+  18:	10 c0       	rjmp	.+32     	; 0x3a <__bad_interrupt>
+  1a:	0f c0       	rjmp	.+30     	; 0x3a <__bad_interrupt>
+  1c:	0e c0       	rjmp	.+28     	; 0x3a <__bad_interrupt>
+  1e:	0d c0       	rjmp	.+26     	; 0x3a <__bad_interrupt>
+  20:	0c c0       	rjmp	.+24     	; 0x3a <__bad_interrupt>
+  22:	0b c0       	rjmp	.+22     	; 0x3a <__bad_interrupt>
+  24:	0a c0       	rjmp	.+20     	; 0x3a <__bad_interrupt>
+  26:	09 c0       	rjmp	.+18     	; 0x3a <__bad_interrupt>
+  28:	08 c0       	rjmp	.+16     	; 0x3a <__bad_interrupt>
+
+0000002a <__ctors_end>:
+  2a:	11 24       	eor	r1, r1
+  2c:	1f be       	out	0x3f, r1	; 63
+  2e:	cf e5       	ldi	r28, 0x5F	; 95
+  30:	d2 e0       	ldi	r29, 0x02	; 2
+  32:	de bf       	out	0x3e, r29	; 62
+  34:	cd bf       	out	0x3d, r28	; 61
+  36:	02 d0       	rcall	.+4      	; 0x3c <main>
+  38:	16 c0       	rjmp	.+44     	; 0x66 <_exit>
+
+0000003a <__bad_interrupt>:
+  3a:	e2 cf       	rjmp	.-60     	; 0x0 <__vectors>
+
+0000003c <main>:
+#include <avr/io.h>
+#include <avr/sfr_defs.h> // Para la macro _BV()
+
+
+int main(void)
+{
+  3c:	cf 93       	push	r28
+  3e:	df 93       	push	r29
+	int portBValue = 0x00;
+	PORTA = 0xFF;						//Activa Pull up en puerto A
+  40:	8f ef       	ldi	r24, 0xFF	; 255
+  42:	8b bb       	out	0x1b, r24	; 27
+	DDRB = 0xFF;						//Define DDRB como salidas
+  44:	87 bb       	out	0x17, r24	; 23
+	PORTB = portBValue;					//Se define el valor del puerto B en 00
+  46:	18 ba       	out	0x18, r1	; 24
+	DDRD = 0x80;						//Se define el pin 8 de PORTD como salida (PWM)
+  48:	80 e8       	ldi	r24, 0x80	; 128
+  4a:	81 bb       	out	0x11, r24	; 17
+	//TCCR2 = 0x62;						//Timer2 en modo PWM en fase correcta
+										//	con CLCK/8
+	TCCR2 = _BV(WGM20) | _BV(COM21) | _BV(CS21);
+  4c:	82 e6       	ldi	r24, 0x62	; 98
+  4e:	85 bd       	out	0x25, r24	; 37
+	
+    /* Replace with your application code */
+    while (1) 
+    {
+		PORTB = PINA;					//Lee el valor del PINA (minidip) y lo muestra en
+  50:	e9 e3       	ldi	r30, 0x39	; 57
+  52:	f0 e0       	ldi	r31, 0x00	; 0
+  54:	c8 e3       	ldi	r28, 0x38	; 56
+  56:	d0 e0       	ldi	r29, 0x00	; 0
+										//	en PORTB (LEDS)
+		OCR2 = PINA;					//Lee el valor del PINA (minidip) y lo guarda en
+  58:	a3 e4       	ldi	r26, 0x43	; 67
+  5a:	b0 e0       	ldi	r27, 0x00	; 0
+	TCCR2 = _BV(WGM20) | _BV(COM21) | _BV(CS21);
+	
+    /* Replace with your application code */
+    while (1) 
+    {
+		PORTB = PINA;					//Lee el valor del PINA (minidip) y lo muestra en
+  5c:	80 81       	ld	r24, Z
+  5e:	88 83       	st	Y, r24
+										//	en PORTB (LEDS)
+		OCR2 = PINA;					//Lee el valor del PINA (minidip) y lo guarda en
+  60:	80 81       	ld	r24, Z
+  62:	8c 93       	st	X, r24
+  64:	fb cf       	rjmp	.-10     	; 0x5c <__SREG__+0x1d>
+
+00000066 <_exit>:
+  66:	f8 94       	cli
+
+00000068 <__stop_program>:
+  68:	ff cf       	rjmp	.-2      	; 0x68 <__stop_program>

@@ -10,7 +10,7 @@ INICIO:	LDI		R16,	LOW(RAMEND)	 ;------------------------
      	OUT		SPL,	R16			 ;    INICIALIZAMOS EL 
      	LDI		R16,	HIGH(RAMEND) ;	 STACK POINTER
       	OUT		SPH,	R16			 ;------------------------ 
-      	LDI		R16, 	$81
+      	LDI		R16, 	$80
 		OUT		DDRD,	R16		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 		SER		R16	    		;R16 <- $FF
       	OUT		PORTA,	R16	    ;ACTIVA PULL-UP EN PUERTO A
