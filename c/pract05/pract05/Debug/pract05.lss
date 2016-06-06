@@ -1,0 +1,188 @@
+
+pract05.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000ac  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .debug_aranges 00000020  00000000  00000000  00000100  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  2 .debug_pubnames 0000001b  00000000  00000000  00000120  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   000000a3  00000000  00000000  0000013b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 00000061  00000000  00000000  000001de  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   000000f7  00000000  00000000  0000023f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000020  00000000  00000000  00000338  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    0000009e  00000000  00000000  00000358  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_loc    00000048  00000000  00000000  000003f6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_ranges 00000018  00000000  00000000  0000043e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	14 c0       	rjmp	.+40     	; 0x2a <__ctors_end>
+   2:	1b c0       	rjmp	.+54     	; 0x3a <__bad_interrupt>
+   4:	1a c0       	rjmp	.+52     	; 0x3a <__bad_interrupt>
+   6:	19 c0       	rjmp	.+50     	; 0x3a <__bad_interrupt>
+   8:	18 c0       	rjmp	.+48     	; 0x3a <__bad_interrupt>
+   a:	17 c0       	rjmp	.+46     	; 0x3a <__bad_interrupt>
+   c:	16 c0       	rjmp	.+44     	; 0x3a <__bad_interrupt>
+   e:	15 c0       	rjmp	.+42     	; 0x3a <__bad_interrupt>
+  10:	14 c0       	rjmp	.+40     	; 0x3a <__bad_interrupt>
+  12:	13 c0       	rjmp	.+38     	; 0x3a <__bad_interrupt>
+  14:	12 c0       	rjmp	.+36     	; 0x3a <__bad_interrupt>
+  16:	11 c0       	rjmp	.+34     	; 0x3a <__bad_interrupt>
+  18:	10 c0       	rjmp	.+32     	; 0x3a <__bad_interrupt>
+  1a:	0f c0       	rjmp	.+30     	; 0x3a <__bad_interrupt>
+  1c:	0e c0       	rjmp	.+28     	; 0x3a <__bad_interrupt>
+  1e:	0d c0       	rjmp	.+26     	; 0x3a <__bad_interrupt>
+  20:	0c c0       	rjmp	.+24     	; 0x3a <__bad_interrupt>
+  22:	0b c0       	rjmp	.+22     	; 0x3a <__bad_interrupt>
+  24:	0a c0       	rjmp	.+20     	; 0x3a <__bad_interrupt>
+  26:	09 c0       	rjmp	.+18     	; 0x3a <__bad_interrupt>
+  28:	08 c0       	rjmp	.+16     	; 0x3a <__bad_interrupt>
+
+0000002a <__ctors_end>:
+  2a:	11 24       	eor	r1, r1
+  2c:	1f be       	out	0x3f, r1	; 63
+  2e:	cf e5       	ldi	r28, 0x5F	; 95
+  30:	d2 e0       	ldi	r29, 0x02	; 2
+  32:	de bf       	out	0x3e, r29	; 62
+  34:	cd bf       	out	0x3d, r28	; 61
+  36:	02 d0       	rcall	.+4      	; 0x3c <main>
+  38:	37 c0       	rjmp	.+110    	; 0xa8 <_exit>
+
+0000003a <__bad_interrupt>:
+  3a:	e2 cf       	rjmp	.-60     	; 0x0 <__vectors>
+
+0000003c <main>:
+#include <stdio.h>
+#include <avr/sfr_defs.h> // Para la macro _BV()
+
+
+ int main(void)
+ {
+  3c:	0f 93       	push	r16
+  3e:	1f 93       	push	r17
+  40:	cf 93       	push	r28
+  42:	df 93       	push	r29
+ 	int portBValue = 0x00;
+	int upDown = 1;						//1 = up, 0 = down
+	DDRB = 0xFF;						//Define DDRB como salidas
+  44:	8f ef       	ldi	r24, 0xFF	; 255
+  46:	87 bb       	out	0x17, r24	; 23
+	PORTB = portBValue;					//Se define el valor del puerto B en 00
+  48:	18 ba       	out	0x18, r1	; 24
+	DDRD = 0x80;						//Se define el pin 8 de PORTD como salida (PWM)
+  4a:	80 e8       	ldi	r24, 0x80	; 128
+  4c:	81 bb       	out	0x11, r24	; 17
+	//TCCR2 = 0x62;						//Timer2 en modo PWM en fase correcta
+	TCCR2 = _BV(WGM20) | _BV(COM21) | _BV(CS21); //	con CLCK/8
+  4e:	82 e6       	ldi	r24, 0x62	; 98
+  50:	85 bd       	out	0x25, r24	; 37
+	TCCR1B = _BV(CS11);					//Enciende el bit CS11 del timer 1 para
+  52:	82 e0       	ldi	r24, 0x02	; 2
+  54:	8e bd       	out	0x2e, r24	; 46
+  56:	20 e0       	ldi	r18, 0x00	; 0
+  58:	30 e0       	ldi	r19, 0x00	; 0
+  5a:	41 e0       	ldi	r20, 0x01	; 1
+  5c:	50 e0       	ldi	r21, 0x00	; 0
+	
+	/* Replace with your application code */
+	while (1)
+	{
+		//Comprueba si ya hubo desbordamiento del timer1:
+		if((TIFR & _BV(TOV1))){
+  5e:	e8 e5       	ldi	r30, 0x58	; 88
+  60:	f0 e0       	ldi	r31, 0x00	; 0
+			TIFR |= _BV(TOV1);			//Limpia la bandera
+			PORTB = portBValue;			//Muestra el valor en los LEDS
+  62:	c8 e3       	ldi	r28, 0x38	; 56
+  64:	d0 e0       	ldi	r29, 0x00	; 0
+				if(portBValue == 0x00)		//Si el valor es igual a 255
+					upDown = 1;		//	regresar a 0
+				else                        //De otra forma
+					portBValue--;			//Incrementa el valor
+			}
+			OCR2 = portBValue;					//Lee el valor del PINA (minidip) y lo guarda en
+  66:	a3 e4       	ldi	r26, 0x43	; 67
+  68:	b0 e0       	ldi	r27, 0x00	; 0
+				else                        //De otra forma
+					portBValue++;			//Incrementa el valor
+			} 
+			else
+			{
+				if(portBValue == 0x00)		//Si el valor es igual a 255
+  6a:	61 e0       	ldi	r22, 0x01	; 1
+  6c:	70 e0       	ldi	r23, 0x00	; 0
+		if((TIFR & _BV(TOV1))){
+			TIFR |= _BV(TOV1);			//Limpia la bandera
+			PORTB = portBValue;			//Muestra el valor en los LEDS
+			if (upDown == 1)
+			{
+				if(portBValue == 0xFF)		//Si el valor es igual a 255
+  6e:	00 e0       	ldi	r16, 0x00	; 0
+  70:	10 e0       	ldi	r17, 0x00	; 0
+	
+	/* Replace with your application code */
+	while (1)
+	{
+		//Comprueba si ya hubo desbordamiento del timer1:
+		if((TIFR & _BV(TOV1))){
+  72:	80 81       	ld	r24, Z
+  74:	82 ff       	sbrs	r24, 2
+  76:	fd cf       	rjmp	.-6      	; 0x72 <__SREG__+0x33>
+			TIFR |= _BV(TOV1);			//Limpia la bandera
+  78:	80 81       	ld	r24, Z
+  7a:	84 60       	ori	r24, 0x04	; 4
+  7c:	80 83       	st	Z, r24
+			PORTB = portBValue;			//Muestra el valor en los LEDS
+  7e:	28 83       	st	Y, r18
+			if (upDown == 1)
+  80:	41 30       	cpi	r20, 0x01	; 1
+  82:	51 05       	cpc	r21, r1
+  84:	41 f4       	brne	.+16     	; 0x96 <__SREG__+0x57>
+			{
+				if(portBValue == 0xFF)		//Si el valor es igual a 255
+  86:	2f 3f       	cpi	r18, 0xFF	; 255
+  88:	31 05       	cpc	r19, r1
+  8a:	11 f4       	brne	.+4      	; 0x90 <__SREG__+0x51>
+  8c:	a8 01       	movw	r20, r16
+  8e:	0a c0       	rjmp	.+20     	; 0xa4 <__SREG__+0x65>
+					upDown = 0;		//	regresar a 0
+				else                        //De otra forma
+					portBValue++;			//Incrementa el valor
+  90:	2f 5f       	subi	r18, 0xFF	; 255
+  92:	3f 4f       	sbci	r19, 0xFF	; 255
+  94:	07 c0       	rjmp	.+14     	; 0xa4 <__SREG__+0x65>
+			} 
+			else
+			{
+				if(portBValue == 0x00)		//Si el valor es igual a 255
+  96:	21 15       	cp	r18, r1
+  98:	31 05       	cpc	r19, r1
+  9a:	11 f4       	brne	.+4      	; 0xa0 <__SREG__+0x61>
+  9c:	ab 01       	movw	r20, r22
+  9e:	02 c0       	rjmp	.+4      	; 0xa4 <__SREG__+0x65>
+					upDown = 1;		//	regresar a 0
+				else                        //De otra forma
+					portBValue--;			//Incrementa el valor
+  a0:	21 50       	subi	r18, 0x01	; 1
+  a2:	30 40       	sbci	r19, 0x00	; 0
+			}
+			OCR2 = portBValue;					//Lee el valor del PINA (minidip) y lo guarda en
+  a4:	2c 93       	st	X, r18
+  a6:	e5 cf       	rjmp	.-54     	; 0x72 <__SREG__+0x33>
+
+000000a8 <_exit>:
+  a8:	f8 94       	cli
+
+000000aa <__stop_program>:
+  aa:	ff cf       	rjmp	.-2      	; 0xaa <__stop_program>
