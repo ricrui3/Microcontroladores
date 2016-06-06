@@ -19,7 +19,7 @@ int main(void)
 	//TCCR2 = 0x62;						//Timer2 en modo PWM en fase correcta								
 	TCCR2 = _BV(WGM20) | _BV(COM21) | _BV(CS21); //	con CLCK/8
 	
-    /* Replace with your application code */
+    /*Aqui va el codigo a ciclar*/
     while (1) 
     {
 		PORTB = PINA;					//Lee el valor del PINA (minidip) y lo muestra en

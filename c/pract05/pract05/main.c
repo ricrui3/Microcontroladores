@@ -9,10 +9,10 @@
 #include <stdio.h>
 #include <avr/sfr_defs.h> // Para la macro _BV()
 
-
- int main(void)
- {
- 	int portBValue = 0x00;
+/*Aqui va el codigo a ciclar*/
+int main(void)
+{
+	int portBValue = 0x00;
 	int upDown = 1;						//1 = up, 0 = down
 	DDRB = 0xFF;						//Define DDRB como salidas
 	PORTB = portBValue;					//Se define el valor del puerto B en 00
@@ -22,7 +22,7 @@
 	TCCR1B = _BV(CS11);					//Enciende el bit CS11 del timer 1 para
 										//	frecuencia CLK/8
 	
-	/* Replace with your application code */
+	/*Aqui va el codigo a ciclar*/
 	while (1)
 	{
 		//Comprueba si ya hubo desbordamiento del timer1:
