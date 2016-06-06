@@ -1,0 +1,179 @@
+
+pract10.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000b6  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000032  00800060  000000b6  0000012a  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .debug_aranges 00000020  00000000  00000000  0000015c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_pubnames 0000001b  00000000  00000000  0000017c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_info   000000af  00000000  00000000  00000197  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_abbrev 00000077  00000000  00000000  00000246  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_line   000000e7  00000000  00000000  000002bd  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_frame  00000020  00000000  00000000  000003a4  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_str    000000a8  00000000  00000000  000003c4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_loc    00000028  00000000  00000000  0000046c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 00000018  00000000  00000000  00000494  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	14 c0       	rjmp	.+40     	; 0x2a <__ctors_end>
+   2:	26 c0       	rjmp	.+76     	; 0x50 <__bad_interrupt>
+   4:	25 c0       	rjmp	.+74     	; 0x50 <__bad_interrupt>
+   6:	24 c0       	rjmp	.+72     	; 0x50 <__bad_interrupt>
+   8:	23 c0       	rjmp	.+70     	; 0x50 <__bad_interrupt>
+   a:	22 c0       	rjmp	.+68     	; 0x50 <__bad_interrupt>
+   c:	21 c0       	rjmp	.+66     	; 0x50 <__bad_interrupt>
+   e:	20 c0       	rjmp	.+64     	; 0x50 <__bad_interrupt>
+  10:	1f c0       	rjmp	.+62     	; 0x50 <__bad_interrupt>
+  12:	1e c0       	rjmp	.+60     	; 0x50 <__bad_interrupt>
+  14:	1d c0       	rjmp	.+58     	; 0x50 <__bad_interrupt>
+  16:	1c c0       	rjmp	.+56     	; 0x50 <__bad_interrupt>
+  18:	1b c0       	rjmp	.+54     	; 0x50 <__bad_interrupt>
+  1a:	1a c0       	rjmp	.+52     	; 0x50 <__bad_interrupt>
+  1c:	19 c0       	rjmp	.+50     	; 0x50 <__bad_interrupt>
+  1e:	18 c0       	rjmp	.+48     	; 0x50 <__bad_interrupt>
+  20:	17 c0       	rjmp	.+46     	; 0x50 <__bad_interrupt>
+  22:	16 c0       	rjmp	.+44     	; 0x50 <__bad_interrupt>
+  24:	15 c0       	rjmp	.+42     	; 0x50 <__bad_interrupt>
+  26:	14 c0       	rjmp	.+40     	; 0x50 <__bad_interrupt>
+  28:	13 c0       	rjmp	.+38     	; 0x50 <__bad_interrupt>
+
+0000002a <__ctors_end>:
+  2a:	11 24       	eor	r1, r1
+  2c:	1f be       	out	0x3f, r1	; 63
+  2e:	cf e5       	ldi	r28, 0x5F	; 95
+  30:	d2 e0       	ldi	r29, 0x02	; 2
+  32:	de bf       	out	0x3e, r29	; 62
+  34:	cd bf       	out	0x3d, r28	; 61
+
+00000036 <__do_copy_data>:
+  36:	10 e0       	ldi	r17, 0x00	; 0
+  38:	a0 e6       	ldi	r26, 0x60	; 96
+  3a:	b0 e0       	ldi	r27, 0x00	; 0
+  3c:	e6 eb       	ldi	r30, 0xB6	; 182
+  3e:	f0 e0       	ldi	r31, 0x00	; 0
+  40:	02 c0       	rjmp	.+4      	; 0x46 <.do_copy_data_start>
+
+00000042 <.do_copy_data_loop>:
+  42:	05 90       	lpm	r0, Z+
+  44:	0d 92       	st	X+, r0
+
+00000046 <.do_copy_data_start>:
+  46:	a2 39       	cpi	r26, 0x92	; 146
+  48:	b1 07       	cpc	r27, r17
+  4a:	d9 f7       	brne	.-10     	; 0x42 <.do_copy_data_loop>
+  4c:	02 d0       	rcall	.+4      	; 0x52 <main>
+  4e:	31 c0       	rjmp	.+98     	; 0xb2 <_exit>
+
+00000050 <__bad_interrupt>:
+  50:	d7 cf       	rjmp	.-82     	; 0x0 <__vectors>
+
+00000052 <main>:
+
+#include <stdio.h>
+#include <avr/io.h>
+#include <avr/sfr_defs.h>
+
+int main(void) {
+  52:	0f 93       	push	r16
+  54:	1f 93       	push	r17
+  56:	cf 93       	push	r28
+  58:	df 93       	push	r29
+	UBRRL = 79;									//SE CONFIGURA LOS BAUD
+  5a:	8f e4       	ldi	r24, 0x4F	; 79
+  5c:	89 b9       	out	0x09, r24	; 9
+												//	9600@12MHz
+	UCSRC = (1<<URSEL)|(1<<UCSZ1)|(1<<UCSZ0);	//8 bits de datos
+  5e:	86 e8       	ldi	r24, 0x86	; 134
+  60:	80 bd       	out	0x20, r24	; 32
+	UCSRB = (1<<TXEN);							//SE ENCIENDE EN MODO DE TRANSMISION
+  62:	88 e0       	ldi	r24, 0x08	; 8
+  64:	8a b9       	out	0x0a, r24	; 10
+	DDRB = 0xFF;								//Define DDRB como salidas
+  66:	8f ef       	ldi	r24, 0xFF	; 255
+  68:	87 bb       	out	0x17, r24	; 23
+	TCCR1B = _BV(CS11);							//Enciende el bit CS11 del timer 1 para
+  6a:	82 e0       	ldi	r24, 0x02	; 2
+  6c:	8e bd       	out	0x2e, r24	; 46
+  6e:	20 e0       	ldi	r18, 0x00	; 0
+  70:	30 e0       	ldi	r19, 0x00	; 0
+	
+	
+	//Ciclo infinito
+	while(1){
+		//Comprueba si ya hubo desbordamiento del timer1:
+		if((TIFR & _BV(TOV1))){
+  72:	a8 e5       	ldi	r26, 0x58	; 88
+  74:	b0 e0       	ldi	r27, 0x00	; 0
+			TIFR |= _BV(TOV1);					//Limpia la bandera
+			
+			//-----------------------TRANSMISION-----------------------------------------
+				charActual = PortData[counter];
+  76:	00 e6       	ldi	r16, 0x60	; 96
+  78:	10 e0       	ldi	r17, 0x00	; 0
+				UDR = charActual;
+  7a:	4c e2       	ldi	r20, 0x2C	; 44
+  7c:	50 e0       	ldi	r21, 0x00	; 0
+				while (!(UCSRA & (1<<UDRE)));
+  7e:	cb e2       	ldi	r28, 0x2B	; 43
+  80:	d0 e0       	ldi	r29, 0x00	; 0
+				if (charActual == '$')
+  82:	60 e0       	ldi	r22, 0x00	; 0
+  84:	70 e0       	ldi	r23, 0x00	; 0
+	
+	
+	//Ciclo infinito
+	while(1){
+		//Comprueba si ya hubo desbordamiento del timer1:
+		if((TIFR & _BV(TOV1))){
+  86:	8c 91       	ld	r24, X
+  88:	82 ff       	sbrs	r24, 2
+  8a:	fd cf       	rjmp	.-6      	; 0x86 <main+0x34>
+			TIFR |= _BV(TOV1);					//Limpia la bandera
+  8c:	8c 91       	ld	r24, X
+  8e:	84 60       	ori	r24, 0x04	; 4
+  90:	8c 93       	st	X, r24
+			
+			//-----------------------TRANSMISION-----------------------------------------
+				charActual = PortData[counter];
+  92:	f8 01       	movw	r30, r16
+  94:	e2 0f       	add	r30, r18
+  96:	f3 1f       	adc	r31, r19
+  98:	90 81       	ld	r25, Z
+				UDR = charActual;
+  9a:	fa 01       	movw	r30, r20
+  9c:	90 83       	st	Z, r25
+				while (!(UCSRA & (1<<UDRE)));
+  9e:	88 81       	ld	r24, Y
+  a0:	85 ff       	sbrs	r24, 5
+  a2:	fd cf       	rjmp	.-6      	; 0x9e <main+0x4c>
+				if (charActual == '$')
+  a4:	94 32       	cpi	r25, 0x24	; 36
+  a6:	11 f4       	brne	.+4      	; 0xac <main+0x5a>
+  a8:	9b 01       	movw	r18, r22
+  aa:	ed cf       	rjmp	.-38     	; 0x86 <main+0x34>
+					counter = 0;
+				else
+					counter++;
+  ac:	2f 5f       	subi	r18, 0xFF	; 255
+  ae:	3f 4f       	sbci	r19, 0xFF	; 255
+  b0:	ea cf       	rjmp	.-44     	; 0x86 <main+0x34>
+
+000000b2 <_exit>:
+  b2:	f8 94       	cli
+
+000000b4 <__stop_program>:
+  b4:	ff cf       	rjmp	.-2      	; 0xb4 <__stop_program>

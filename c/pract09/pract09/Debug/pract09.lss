@@ -1,0 +1,169 @@
+
+pract09.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000009e  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .debug_aranges 00000020  00000000  00000000  000000f2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  2 .debug_pubnames 0000001b  00000000  00000000  00000112  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   0000008f  00000000  00000000  0000012d  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 00000052  00000000  00000000  000001bc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   000000f9  00000000  00000000  0000020e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000020  00000000  00000000  00000308  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    00000095  00000000  00000000  00000328  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_ranges 00000018  00000000  00000000  000003bd  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	14 c0       	rjmp	.+40     	; 0x2a <__ctors_end>
+   2:	1b c0       	rjmp	.+54     	; 0x3a <__bad_interrupt>
+   4:	1a c0       	rjmp	.+52     	; 0x3a <__bad_interrupt>
+   6:	19 c0       	rjmp	.+50     	; 0x3a <__bad_interrupt>
+   8:	18 c0       	rjmp	.+48     	; 0x3a <__bad_interrupt>
+   a:	17 c0       	rjmp	.+46     	; 0x3a <__bad_interrupt>
+   c:	16 c0       	rjmp	.+44     	; 0x3a <__bad_interrupt>
+   e:	15 c0       	rjmp	.+42     	; 0x3a <__bad_interrupt>
+  10:	14 c0       	rjmp	.+40     	; 0x3a <__bad_interrupt>
+  12:	13 c0       	rjmp	.+38     	; 0x3a <__bad_interrupt>
+  14:	12 c0       	rjmp	.+36     	; 0x3a <__bad_interrupt>
+  16:	11 c0       	rjmp	.+34     	; 0x3a <__bad_interrupt>
+  18:	10 c0       	rjmp	.+32     	; 0x3a <__bad_interrupt>
+  1a:	0f c0       	rjmp	.+30     	; 0x3a <__bad_interrupt>
+  1c:	0e c0       	rjmp	.+28     	; 0x3a <__bad_interrupt>
+  1e:	0d c0       	rjmp	.+26     	; 0x3a <__bad_interrupt>
+  20:	0c c0       	rjmp	.+24     	; 0x3a <__bad_interrupt>
+  22:	0b c0       	rjmp	.+22     	; 0x3a <__bad_interrupt>
+  24:	0a c0       	rjmp	.+20     	; 0x3a <__bad_interrupt>
+  26:	09 c0       	rjmp	.+18     	; 0x3a <__bad_interrupt>
+  28:	08 c0       	rjmp	.+16     	; 0x3a <__bad_interrupt>
+
+0000002a <__ctors_end>:
+  2a:	11 24       	eor	r1, r1
+  2c:	1f be       	out	0x3f, r1	; 63
+  2e:	cf e5       	ldi	r28, 0x5F	; 95
+  30:	d2 e0       	ldi	r29, 0x02	; 2
+  32:	de bf       	out	0x3e, r29	; 62
+  34:	cd bf       	out	0x3d, r28	; 61
+  36:	02 d0       	rcall	.+4      	; 0x3c <main>
+  38:	30 c0       	rjmp	.+96     	; 0x9a <_exit>
+
+0000003a <__bad_interrupt>:
+  3a:	e2 cf       	rjmp	.-60     	; 0x0 <__vectors>
+
+0000003c <main>:
+
+#include <stdio.h>
+#include <avr/io.h>
+#include <avr/sfr_defs.h>
+
+int main(void) {
+  3c:	0f 93       	push	r16
+  3e:	1f 93       	push	r17
+  40:	cf 93       	push	r28
+  42:	df 93       	push	r29
+	UBRRL = 79;									//SE CONFIGURA LA FRECUENCIA
+  44:	8f e4       	ldi	r24, 0x4F	; 79
+  46:	89 b9       	out	0x09, r24	; 9
+	//	9600@12MHz
+	UCSRC = (1<<URSEL)|(1<<UCSZ1)|(1<<UCSZ0);	//8 bits de datos
+  48:	86 e8       	ldi	r24, 0x86	; 134
+  4a:	80 bd       	out	0x20, r24	; 32
+	DDRB = 0xFF;								//Define DDRB como salidas
+  4c:	8f ef       	ldi	r24, 0xFF	; 255
+  4e:	87 bb       	out	0x17, r24	; 23
+	TCCR1B = _BV(CS11);							//Enciende el bit CS11 del timer 1 para
+  50:	82 e0       	ldi	r24, 0x02	; 2
+  52:	8e bd       	out	0x2e, r24	; 46
+	
+	
+	//Ciclo infinito
+	while(1){
+		//Comprueba si ya hubo desbordamiento del timer1:
+		if((TIFR & _BV(TOV1))){
+  54:	e8 e5       	ldi	r30, 0x58	; 88
+  56:	f0 e0       	ldi	r31, 0x00	; 0
+			TIFR |= _BV(TOV1);					//Limpia la bandera
+			
+			//------------------------RECEPCION------------------------------------------
+			UCSRB = (1<<RXEN);					//SE ENCIENDE EN MODO DE TRANSMISION
+  58:	2a e2       	ldi	r18, 0x2A	; 42
+  5a:	30 e0       	ldi	r19, 0x00	; 0
+  5c:	70 e1       	ldi	r23, 0x10	; 16
+			while(!(UCSRA&(1<<RXC)));			//Espera a que se termine de recibir
+  5e:	ab e2       	ldi	r26, 0x2B	; 43
+  60:	b0 e0       	ldi	r27, 0x00	; 0
+			PortData = UDR;						//Lee el dato recibido
+  62:	0c e2       	ldi	r16, 0x2C	; 44
+  64:	10 e0       	ldi	r17, 0x00	; 0
+			//---------------------------------------------------------------------------
+			
+			//-----------------------TRANSMISION-----------------------------------------
+			UCSRB = (1<<TXEN);							//SE ENCIENDE EN MODO DE TRANSMISION
+  66:	68 e0       	ldi	r22, 0x08	; 8
+			UDR = PortData;						//Transmite la informacion
+			while(!(UCSRA&(1<<UDRE)));			//Espera a que se termine de transmitir
+			//--------------------------------------------------------------------------
+			
+			PORTB = PortData;					//Muestra el valor del caracter a enviar
+  68:	48 e3       	ldi	r20, 0x38	; 56
+  6a:	50 e0       	ldi	r21, 0x00	; 0
+	
+	
+	//Ciclo infinito
+	while(1){
+		//Comprueba si ya hubo desbordamiento del timer1:
+		if((TIFR & _BV(TOV1))){
+  6c:	80 81       	ld	r24, Z
+  6e:	82 ff       	sbrs	r24, 2
+  70:	fd cf       	rjmp	.-6      	; 0x6c <__SREG__+0x2d>
+			TIFR |= _BV(TOV1);					//Limpia la bandera
+  72:	80 81       	ld	r24, Z
+  74:	84 60       	ori	r24, 0x04	; 4
+  76:	80 83       	st	Z, r24
+			
+			//------------------------RECEPCION------------------------------------------
+			UCSRB = (1<<RXEN);					//SE ENCIENDE EN MODO DE TRANSMISION
+  78:	e9 01       	movw	r28, r18
+  7a:	78 83       	st	Y, r23
+			while(!(UCSRA&(1<<RXC)));			//Espera a que se termine de recibir
+  7c:	8c 91       	ld	r24, X
+  7e:	88 23       	and	r24, r24
+  80:	ec f7       	brge	.-6      	; 0x7c <__SREG__+0x3d>
+			PortData = UDR;						//Lee el dato recibido
+  82:	e8 01       	movw	r28, r16
+  84:	98 81       	ld	r25, Y
+			//---------------------------------------------------------------------------
+			
+			//-----------------------TRANSMISION-----------------------------------------
+			UCSRB = (1<<TXEN);							//SE ENCIENDE EN MODO DE TRANSMISION
+  86:	e9 01       	movw	r28, r18
+  88:	68 83       	st	Y, r22
+			UDR = PortData;						//Transmite la informacion
+  8a:	e8 01       	movw	r28, r16
+  8c:	98 83       	st	Y, r25
+			while(!(UCSRA&(1<<UDRE)));			//Espera a que se termine de transmitir
+  8e:	8c 91       	ld	r24, X
+  90:	85 ff       	sbrs	r24, 5
+  92:	fd cf       	rjmp	.-6      	; 0x8e <__SREG__+0x4f>
+			//--------------------------------------------------------------------------
+			
+			PORTB = PortData;					//Muestra el valor del caracter a enviar
+  94:	ea 01       	movw	r28, r20
+  96:	98 83       	st	Y, r25
+  98:	e9 cf       	rjmp	.-46     	; 0x6c <__SREG__+0x2d>
+
+0000009a <_exit>:
+  9a:	f8 94       	cli
+
+0000009c <__stop_program>:
+  9c:	ff cf       	rjmp	.-2      	; 0x9c <__stop_program>
