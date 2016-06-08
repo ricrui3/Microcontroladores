@@ -1,2 +1,0 @@
-@ECHO OFF
-"C:\Program Files\Atmel\AVR Tools\AvrAssembler2\avrasm2.exe" -S "C:\Users\RENE\Dropbox\Horny\PRACTICAS\motor_pasos\labels.tmp" -fI -W+ie -C V2E -o "C:\Users\RENE\Dropbox\Horny\PRACTICAS\motor_pasos\motor_pasos.hex" -d "C:\Users\RENE\Dropbox\Horny\PRACTICAS\motor_pasos\motor_pasos.obj" -e "C:\Users\RENE\Dropbox\Horny\PRACTICAS\motor_pasos\motor_pasos.eep" -m "C:\Users\RENE\Dropbox\Horny\PRACTICAS\motor_pasos\motor_pasos.map" "C:\Users\RENE\Dropbox\Horny\PRACTICAS\motor_pasos\motor_pasos.asm"

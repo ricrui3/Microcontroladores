@@ -1,0 +1,108 @@
+
+pract01.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000062  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .debug_aranges 00000020  00000000  00000000  000000b6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  2 .debug_pubnames 0000001b  00000000  00000000  000000d6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   0000008a  00000000  00000000  000000f1  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 00000052  00000000  00000000  0000017b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   00000087  00000000  00000000  000001cd  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000020  00000000  00000000  00000254  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    00000092  00000000  00000000  00000274  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_loc    00000038  00000000  00000000  00000306  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_ranges 00000018  00000000  00000000  0000033e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	14 c0       	rjmp	.+40     	; 0x2a <__ctors_end>
+   2:	1b c0       	rjmp	.+54     	; 0x3a <__bad_interrupt>
+   4:	1a c0       	rjmp	.+52     	; 0x3a <__bad_interrupt>
+   6:	19 c0       	rjmp	.+50     	; 0x3a <__bad_interrupt>
+   8:	18 c0       	rjmp	.+48     	; 0x3a <__bad_interrupt>
+   a:	17 c0       	rjmp	.+46     	; 0x3a <__bad_interrupt>
+   c:	16 c0       	rjmp	.+44     	; 0x3a <__bad_interrupt>
+   e:	15 c0       	rjmp	.+42     	; 0x3a <__bad_interrupt>
+  10:	14 c0       	rjmp	.+40     	; 0x3a <__bad_interrupt>
+  12:	13 c0       	rjmp	.+38     	; 0x3a <__bad_interrupt>
+  14:	12 c0       	rjmp	.+36     	; 0x3a <__bad_interrupt>
+  16:	11 c0       	rjmp	.+34     	; 0x3a <__bad_interrupt>
+  18:	10 c0       	rjmp	.+32     	; 0x3a <__bad_interrupt>
+  1a:	0f c0       	rjmp	.+30     	; 0x3a <__bad_interrupt>
+  1c:	0e c0       	rjmp	.+28     	; 0x3a <__bad_interrupt>
+  1e:	0d c0       	rjmp	.+26     	; 0x3a <__bad_interrupt>
+  20:	0c c0       	rjmp	.+24     	; 0x3a <__bad_interrupt>
+  22:	0b c0       	rjmp	.+22     	; 0x3a <__bad_interrupt>
+  24:	0a c0       	rjmp	.+20     	; 0x3a <__bad_interrupt>
+  26:	09 c0       	rjmp	.+18     	; 0x3a <__bad_interrupt>
+  28:	08 c0       	rjmp	.+16     	; 0x3a <__bad_interrupt>
+
+0000002a <__ctors_end>:
+  2a:	11 24       	eor	r1, r1
+  2c:	1f be       	out	0x3f, r1	; 63
+  2e:	cf e5       	ldi	r28, 0x5F	; 95
+  30:	d2 e0       	ldi	r29, 0x02	; 2
+  32:	de bf       	out	0x3e, r29	; 62
+  34:	cd bf       	out	0x3d, r28	; 61
+  36:	02 d0       	rcall	.+4      	; 0x3c <main>
+  38:	12 c0       	rjmp	.+36     	; 0x5e <_exit>
+
+0000003a <__bad_interrupt>:
+  3a:	e2 cf       	rjmp	.-60     	; 0x0 <__vectors>
+
+0000003c <main>:
+#include <avr/io.h>
+
+int main (void)
+{	
+	//--------Inicializa los valores---------
+	DDRB = 0xFF;		//Inicializa PORTB como salida
+  3c:	8f ef       	ldi	r24, 0xFF	; 255
+  3e:	87 bb       	out	0x17, r24	; 23
+  40:	80 e0       	ldi	r24, 0x00	; 0
+  42:	90 e0       	ldi	r25, 0x00	; 0
+					//Los 3 ciclos "for" gastan instrucciones del mP
+					//	para generar un retardo 
+				}
+			}
+		}
+		PORTB = valor;		//Muestra "valor" en el P 
+  44:	e8 e3       	ldi	r30, 0x38	; 56
+  46:	f0 e0       	ldi	r31, 0x00	; 0
+  48:	20 e0       	ldi	r18, 0x00	; 0
+  4a:	30 e0       	ldi	r19, 0x00	; 0
+  4c:	80 83       	st	Z, r24
+		if (valor != 0xFF)	//----------------------------------
+  4e:	8f 3f       	cpi	r24, 0xFF	; 255
+  50:	91 05       	cpc	r25, r1
+  52:	11 f0       	breq	.+4      	; 0x58 <__SREG__+0x19>
+			valor++;		//    Regresa "valor" a 0x00 si 
+  54:	01 96       	adiw	r24, 0x01	; 1
+  56:	fa cf       	rjmp	.-12     	; 0x4c <__SREG__+0xd>
+					//Los 3 ciclos "for" gastan instrucciones del mP
+					//	para generar un retardo 
+				}
+			}
+		}
+		PORTB = valor;		//Muestra "valor" en el P 
+  58:	10 82       	st	Z, r1
+  5a:	c9 01       	movw	r24, r18
+  5c:	fb cf       	rjmp	.-10     	; 0x54 <__SREG__+0x15>
+
+0000005e <_exit>:
+  5e:	f8 94       	cli
+
+00000060 <__stop_program>:
+  60:	ff cf       	rjmp	.-2      	; 0x60 <__stop_program>

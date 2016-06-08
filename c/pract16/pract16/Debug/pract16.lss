@@ -1,0 +1,138 @@
+
+pract16.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000088  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .debug_aranges 00000020  00000000  00000000  000000dc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  2 .debug_pubnames 0000001b  00000000  00000000  000000fc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   0000007a  00000000  00000000  00000117  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 00000043  00000000  00000000  00000191  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   000000c7  00000000  00000000  000001d4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000020  00000000  00000000  0000029c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    0000008c  00000000  00000000  000002bc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_ranges 00000018  00000000  00000000  00000348  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	14 c0       	rjmp	.+40     	; 0x2a <__ctors_end>
+   2:	1b c0       	rjmp	.+54     	; 0x3a <__bad_interrupt>
+   4:	1a c0       	rjmp	.+52     	; 0x3a <__bad_interrupt>
+   6:	19 c0       	rjmp	.+50     	; 0x3a <__bad_interrupt>
+   8:	18 c0       	rjmp	.+48     	; 0x3a <__bad_interrupt>
+   a:	17 c0       	rjmp	.+46     	; 0x3a <__bad_interrupt>
+   c:	16 c0       	rjmp	.+44     	; 0x3a <__bad_interrupt>
+   e:	15 c0       	rjmp	.+42     	; 0x3a <__bad_interrupt>
+  10:	14 c0       	rjmp	.+40     	; 0x3a <__bad_interrupt>
+  12:	13 c0       	rjmp	.+38     	; 0x3a <__bad_interrupt>
+  14:	12 c0       	rjmp	.+36     	; 0x3a <__bad_interrupt>
+  16:	11 c0       	rjmp	.+34     	; 0x3a <__bad_interrupt>
+  18:	10 c0       	rjmp	.+32     	; 0x3a <__bad_interrupt>
+  1a:	0f c0       	rjmp	.+30     	; 0x3a <__bad_interrupt>
+  1c:	0e c0       	rjmp	.+28     	; 0x3a <__bad_interrupt>
+  1e:	0d c0       	rjmp	.+26     	; 0x3a <__bad_interrupt>
+  20:	0c c0       	rjmp	.+24     	; 0x3a <__bad_interrupt>
+  22:	0b c0       	rjmp	.+22     	; 0x3a <__bad_interrupt>
+  24:	0a c0       	rjmp	.+20     	; 0x3a <__bad_interrupt>
+  26:	09 c0       	rjmp	.+18     	; 0x3a <__bad_interrupt>
+  28:	08 c0       	rjmp	.+16     	; 0x3a <__bad_interrupt>
+
+0000002a <__ctors_end>:
+  2a:	11 24       	eor	r1, r1
+  2c:	1f be       	out	0x3f, r1	; 63
+  2e:	cf e5       	ldi	r28, 0x5F	; 95
+  30:	d2 e0       	ldi	r29, 0x02	; 2
+  32:	de bf       	out	0x3e, r29	; 62
+  34:	cd bf       	out	0x3d, r28	; 61
+  36:	02 d0       	rcall	.+4      	; 0x3c <main>
+  38:	25 c0       	rjmp	.+74     	; 0x84 <_exit>
+
+0000003a <__bad_interrupt>:
+  3a:	e2 cf       	rjmp	.-60     	; 0x0 <__vectors>
+
+0000003c <main>:
+ */ 
+#include <avr/io.h>
+#include <avr/sfr_defs.h>
+
+int main (void)
+{
+  3c:	cf 93       	push	r28
+  3e:	df 93       	push	r29
+	DDRB = 0xFF;						//Define DDRB como salidas
+  40:	8f ef       	ldi	r24, 0xFF	; 255
+  42:	87 bb       	out	0x17, r24	; 23
+	PORTB = 0x00;
+  44:	18 ba       	out	0x18, r1	; 24
+	TCCR1B = _BV(CS11);					//Enciende el bit CS11 del timer 1 para
+  46:	82 e0       	ldi	r24, 0x02	; 2
+  48:	8e bd       	out	0x2e, r24	; 46
+										//	frecuencia CLK/8
+	ADMUX = _BV(ADLAR);					//Configura carga a la izquierda
+  4a:	80 e2       	ldi	r24, 0x20	; 32
+  4c:	87 b9       	out	0x07, r24	; 7
+										//		y entrada ADC0 (PINA0)
+	ADCSRA = _BV(ADEN) | _BV(ADATE) | _BV(ADPS2) | _BV(ADPS1);
+  4e:	86 ea       	ldi	r24, 0xA6	; 166
+  50:	86 b9       	out	0x06, r24	; 6
+										//HABILITA EL ADC Y EL AUTODISPARO
+										//	fACTOR DE DIVISION DE 64
+	
+	while(1){
+		//Comprueba si ya hubo desbordamiento del timer1:
+		if((TIFR & _BV(TOV1))){
+  52:	e8 e5       	ldi	r30, 0x58	; 88
+  54:	f0 e0       	ldi	r31, 0x00	; 0
+			TIFR |= _BV(TOV1);			//Limpia la bandera
+			ADCSRA = _BV(ADSC);
+  56:	a6 e2       	ldi	r26, 0x26	; 38
+  58:	b0 e0       	ldi	r27, 0x00	; 0
+  5a:	40 e4       	ldi	r20, 0x40	; 64
+			while(!(ADCSRA & (1<<ADIF)));
+			PORTB = ADC;
+  5c:	24 e2       	ldi	r18, 0x24	; 36
+  5e:	30 e0       	ldi	r19, 0x00	; 0
+  60:	68 e3       	ldi	r22, 0x38	; 56
+  62:	70 e0       	ldi	r23, 0x00	; 0
+										//HABILITA EL ADC Y EL AUTODISPARO
+										//	fACTOR DE DIVISION DE 64
+	
+	while(1){
+		//Comprueba si ya hubo desbordamiento del timer1:
+		if((TIFR & _BV(TOV1))){
+  64:	80 81       	ld	r24, Z
+  66:	82 ff       	sbrs	r24, 2
+  68:	fd cf       	rjmp	.-6      	; 0x64 <__SREG__+0x25>
+			TIFR |= _BV(TOV1);			//Limpia la bandera
+  6a:	80 81       	ld	r24, Z
+  6c:	84 60       	ori	r24, 0x04	; 4
+  6e:	80 83       	st	Z, r24
+			ADCSRA = _BV(ADSC);
+  70:	4c 93       	st	X, r20
+			while(!(ADCSRA & (1<<ADIF)));
+  72:	8c 91       	ld	r24, X
+  74:	84 ff       	sbrs	r24, 4
+  76:	fd cf       	rjmp	.-6      	; 0x72 <__SREG__+0x33>
+			PORTB = ADC;
+  78:	e9 01       	movw	r28, r18
+  7a:	88 81       	ld	r24, Y
+  7c:	99 81       	ldd	r25, Y+1	; 0x01
+  7e:	eb 01       	movw	r28, r22
+  80:	88 83       	st	Y, r24
+  82:	f0 cf       	rjmp	.-32     	; 0x64 <__SREG__+0x25>
+
+00000084 <_exit>:
+  84:	f8 94       	cli
+
+00000086 <__stop_program>:
+  86:	ff cf       	rjmp	.-2      	; 0x86 <__stop_program>
